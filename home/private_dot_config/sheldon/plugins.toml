@@ -1,0 +1,83 @@
+# `sheldon` configuration file
+# ----------------------------
+#
+# You can modify this file directly or you can use one of the following
+# `sheldon` commands which are provided to assist in editing the config file:
+#
+# - `sheldon add` to add a new plugin to the config file
+# - `sheldon edit` to open up the config file in the default editor
+# - `sheldon remove` to remove a plugin from the config file
+#
+# See the documentation for more https://github.com/rossmacarthur/sheldon#readme
+
+[plugins]
+
+[templates]
+defer = "{% for file in files %}zsh-defer source \"{{ file }}\"\n{% endfor %}"
+
+[plugins.brew-zsh-completions]
+local = "/opt/homebrew/share/zsh/site-functions" # inlining logic makes it < 1 ms
+apply = ['fpath']
+
+[plugins.powerlevel10k]
+github = "romkatv/powerlevel10k"
+
+[plugins.zsh-defer]
+github = "romkatv/zsh-defer"
+rev = "1c75faff4d8584afe090b06db11991c8c8d62055"
+
+[plugins.oh-my-zsh]
+github = "ohmyzsh/ohmyzsh"
+use = [
+  "plugins/docker-compose/docker-compose.plugin.zsh",
+  "plugins/git/git.plugin.zsh",
+  "plugins/macos/macos.zsh",
+]
+
+# [plugins.zsh-abbr]
+# github = "MenkeTechnologies/zsh-expand"
+
+# [plugins.ls_colors]
+# github = "trapd00r/ls_colors"
+# use = ["lscolors.sh"]
+
+[plugins.zsh-autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+use = ["{{ name }}.zsh"]
+apply = ["defer"]
+
+[plugins.zsh-syntax-highlighting]
+github = "zsh-users/zsh-syntax-highlighting"
+apply = ["defer"]
+
+[plugins.zsh-completions]
+github = "zsh-users/zsh-completions"
+apply = ["defer"]
+
+[plugins.blackbox]
+github = "StackExchange/blackbox"
+apply = ["defer"]
+
+[plugins.zoxide]
+inline = 'command -v zoxide &> /dev/null && eval "$(zoxide init zsh)"'
+
+# [[ if eq .deviceType "work" -]]
+[plugins.fnm]
+inline = 'command -v fnm &> /dev/null && eval "$(fnm env --use-on-cd)"'
+# [[ end -]]
+
+# [[ if eq .deviceType "personal" -]]
+[plugins.asdf]
+inline = """
+if [ ! -d "$HOME/.asdf" ]; then
+    git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.13.1
+fi
+
+source "$HOME/.asdf/asdf.sh"
+"""
+# [[ end -]]
+
+# For example:
+#
+# [plugins.base16]
+# github = "chriskempson/base16-shell"

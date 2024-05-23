@@ -1,0 +1,5 @@
+gui:
+  showFileTree: false
+
+os:
+  open: "nvim {{filename}}"

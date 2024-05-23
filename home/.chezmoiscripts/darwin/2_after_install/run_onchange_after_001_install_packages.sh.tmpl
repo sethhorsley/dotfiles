@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo "==> 📜 After install - Setup 1"
+
+brew bundle --no-lock --file=/dev/stdin <<EOF
+{{ range .taps -}}
+tap {{ . | quote }}
+{{ end -}}
+{{ range .general.packages -}}
+brew {{ . | quote }}
+{{ end -}}
+{{ range .general.casks -}}
+cask {{ . | quote }}
+{{ end -}}
+EOF

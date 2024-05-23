@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo "==> 📜 Before install - Setup 2"
+
+brew bundle --no-lock --file=/dev/stdin <<EOF
+{{ range .taps -}}
+tap {{ . | quote }}
+{{ end -}}
+{{ range .essential.packages -}}
+brew {{ . | quote }}
+{{ end -}}
+{{ range .essential.casks -}}
+cask {{ . | quote }}
+{{ end -}}
+EOF

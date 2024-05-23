@@ -1,0 +1,60 @@
+# repos:
+#   - homebrew/cask-fonts
+#   - FelixKratz/formulae
+
+essential:
+  packages:
+    - zoxide
+    - ripgrep
+    - jq
+    - nvim
+    - htop
+    - tmux
+    - fzf
+
+  snaps:
+    - alacritty
+
+general:
+  packages:
+    - dog
+    - dust
+    - xh
+    - duf
+    - ncdu
+    - yt-dlp
+    - nmap
+    - autoenv
+    - nushell
+    - nowplaying-cli
+    - eza
+
+  snaps:
+    - livebook
+    - discord
+    - zoom
+    - docker
+    - firefox
+    - tor-browser
+    - tableplus
+    - notion
+    - cursor
+    - tailscale
+    - multipass
+    - telegram
+    - arc
+    - orbstack
+    - ollama
+    - vlc
+    - descript
+    - wifispoof
+    - hubstaff
+    - mymonero
+    - brave
+    - spotify
+    - transmit
+    - transmission
+
+    - tuple
+    - thunderbird
+    - visual-studio-code-insiders

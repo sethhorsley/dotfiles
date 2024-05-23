@@ -1,0 +1,17 @@
+{{ if ne .chezmoi.os "darwin" }}
+  .chezmoiscripts/darwin/**
+  .warp
+  Library/Application Support/Code/User/settings.json
+  private_dot_config/karabiner
+  ./chezmoidata/brew-packages.yaml
+{{ end }}
+
+{{ if ne .chezmoi.os "linux" }}
+  **/.DS_Store
+  .chezmoiscripts/linux/**
+  ./.config/Code/User/settings.json
+  ./chezmoidata/apt-packages.yaml
+{{ end }}
+
+vscode/**
+key.txt.age

@@ -1,0 +1,32 @@
+{{- $name := promptString "name" "Seth Horsley" -}}
+
+{{- $git_email := promptString "git email" "github.dvxhi@sl.isethi.com" -}}
+
+{{- $op_email := promptString "1P email" "jack@meoff.com" -}}
+
+progress = true
+
+[data]
+    name = {{ $name | quote }}
+    git_email = {{ $git_email | quote }}
+    op_email = {{ $op_email | quote }}
+
+[edit]
+    command = "nvim"
+    # args = ["--wait"]
+
+[warnings]
+    configFileTemplateHasChanged = false
+
+encryption = "age"
+[age]
+# identity = "~/.config/chezmoi/key.txt"
+    recipient = "age1qdsdpzhafts3l3sxnma98z5rprgtv246cqevdsw9gzggmaajauhsx44f8x"
+
+[git]
+    autoCommit = true
+    autoPush = true
+
+[scriptEnv]
+    OP_EMAIL = {{ $op_email }}
+    lla = "sssss"

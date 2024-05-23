@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+
+function nvims() {
+	items=("default" "kickstart" "nvim-seth" "LazyVim" "NvChad" "AstroNvim")
+	config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config > " --height=~50% --layout=reverse --border --exit-0)
+	if [[ -z $config ]]; then
+		echo "Nothing selected"
+		return 0
+	elif [[ $config == "default" ]]; then
+		config=""
+	fi
+	NVIM_APPNAME=$config nvim $@
+}
+
+# function rm() {
+# 	mkdir -p /tmp/trash
+# 	mv "$@" /tmp/trash
+# }
+
+timezsh() {
+	shell=${1-$SHELL}
+	for i in $(seq 1 10); do /usr/bin/time $shell -i -c exit; done
+}
+
+# custom lazy distro's
+alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
+alias nvim-lazy="NVIM_APPNAME=LazyVim nvim"
+alias nvim-kick="NVIM_APPNAME=kickstart nvim"
+alias nvim-chad="NVIM_APPNAME=NvChad nvim"
+alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
+alias nvim-seth="NVIM_APPNAME=nvim-seth nvim"
+
+# apparantly i cannot make a default editor like this ??!!
+# alias nvim="nvim-lazy"
+
+# custom aliass
+alias rmdocker='docker rm -f $(docker ps -aq)'
+alias r="bin/rails"
+
+if type brew &>/dev/null; then
+    FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+    autoload -Uz compinit
+    compinit
+fi
+
+autoload -Uz compinit
+for dump in ~/.zcompdump(N.mh+24); do
+  compinit
+done
+compinit -C
+
+# Enable word jumps and word deletion, aka natural text selection
+autoload -U select-word-style
+select-word-style bash
+
+if [[ "$CASE_SENSITIVE" = true ]]; then
+  zstyle ':completion:*' matcher-list 'r:|=*' 'l:|=* r:|=*'
+else
+  if [[ "$HYPHEN_INSENSITIVE" = true ]]; then
+    zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]-_}={[:upper:][:lower:]_-}' 'r:|=*' 'l:|=* r:|=*'
+  else
+    zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|=*' 'l:|=* r:|=*'
+  fi
+fi
+
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+

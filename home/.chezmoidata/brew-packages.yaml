@@ -1,0 +1,82 @@
+taps:
+  - homebrew/cask-fonts
+  - FelixKratz/formulae
+
+essential:
+  packages:
+    - neofetch
+    - zoxide
+    - coreutils
+    - ripgrep
+    - jq
+    - nvim
+    - sketchybar
+    - koekeishiya/formulae/yabai
+    - koekeishiya/formulae/skhd
+    - htop
+    - tmux
+    - age
+    - fzf
+
+  casks:
+    - iterm2
+    - wezterm
+    - alacritty
+    - font-meslo-lg-nerd-font
+
+general:
+  packages:
+    - neofetch
+    - zoxide
+    - dog
+    - dust
+    - xh
+    - duf
+    - ncdu
+    - yt-dlp
+    - overmind
+    - nmap
+    - autoenv
+    - nushell
+    - nowplaying-cli
+    - eza
+
+  casks:
+    - little-snitch
+    - raycast
+    - livebook
+    - discord
+    - karabiner-elements
+    - zoom
+    - docker
+    - firefox
+    - tor-browser
+    - tableplus
+    - notion
+    - cursor
+    - tailscale
+    - multipass
+    - setapp
+    - telegram
+    - parallels
+    - arc
+    - orbstack
+    - ollama
+    - vlc
+    - descript
+    - wifispoof
+    - hubstaff
+    - mymonero
+    - brave-browser
+    - spotify
+    - transmit
+    - transmission
+
+    # dash docs
+    - dash
+    - daisydisk
+    - zed
+    - tuple
+    - thunderbird
+    - visual-studio-code-insiders
+    - nota
