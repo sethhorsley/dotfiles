@@ -4,6 +4,10 @@ exists() {
     command -v "$1" &> /dev/null
 }
 
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=10000000
+SAVEHIST=10000000
+
 source "$HOME/.zsh-setup"
 source "$HOME/.zsh_variables"
 
