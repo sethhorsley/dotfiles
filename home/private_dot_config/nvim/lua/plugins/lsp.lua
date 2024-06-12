@@ -113,7 +113,7 @@ return {
         ["javascriptreact"] = { "dprint" },
         ["typescript"] = { "dprint", { "prettierd", "prettier" } },
         ["typescriptreact"] = { "dprint" },
-        ["ruby"] = { "standardrb" },
+        -- ["ruby"] = { "standardrb" },
       },
       formatters = {
         dprint = {
