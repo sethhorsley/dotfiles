@@ -45,6 +45,8 @@ general:
     - unar
     - fd
     - poppler
+    - gh
+    - joshmedeski/sesh/sesh
 
   casks:
     - little-snitch
