@@ -40,6 +40,11 @@ general:
     - nushell
     - nowplaying-cli
     - eza
+    - yazi
+    - ffmpegthumbnailer
+    - unar
+    - fd
+    - poppler
 
   casks:
     - little-snitch
