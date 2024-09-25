@@ -23,7 +23,7 @@ map("n", "<leader>ds", require("telescope.builtin").lsp_document_symbols, { desc
 
 --
 -- vim-tmux-navigator
---
+
 if os.getenv("TMUX") then
   map("n", "<C-h>", "<cmd>TmuxNavigateLeft<cr>")
   map("n", "<C-j>", "<cmd>TmuxNavigateDown<cr>")
@@ -33,3 +33,21 @@ end
 
 -- delete other windows
 map("n", "<leader>wo", "<cmd>only<cr>", { desc = "Delete other windows" })
+
+-- toggle tokyonight transparency
+map(
+  "n",
+  "<leader>tt",
+  "<cmd>lua require('config.colorscheme').toggle_transparency()<cr>",
+  { desc = "Toggle transparency" }
+)
+
+map("n", "<leader>z", "<cmd>ZenMode<cr>", { desc = "Zen mode" })
+
+vim.api.nvim_create_user_command("Cppath", function()
+  local path = vim.fn.expand("%:.")
+  vim.fn.setreg("+", path)
+  vim.notify('Copied "' .. path .. '" to the clipboard!')
+end, {})
+
+vim.keymap.set("n", "<leader>cp", ":Cppath<CR>", { noremap = true, silent = true })

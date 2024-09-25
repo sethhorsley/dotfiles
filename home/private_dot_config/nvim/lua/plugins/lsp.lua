@@ -94,10 +94,8 @@ return {
         "shellcheck",
         "shfmt",
         "tailwindcss-language-server",
-        "typescript-language-server",
         "css-lsp",
         "standardrb",
-        "terraform-ls",
         -- for python
         "black",
         "nextls",

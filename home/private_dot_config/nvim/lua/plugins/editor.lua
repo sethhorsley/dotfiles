@@ -52,6 +52,27 @@ return {
   --   },
   -- },
   {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    vscode = true,
+    opts = {},
+    rainbow = {
+      enabled = false,
+      -- number between 1 and 9
+      shade = 5,
+    },
+    -- stylua: ignore
+
+    -- by default all keymaps are enabled, but you can disable some of them,
+    -- by removing them from the list.
+    -- If you rather use another key, you can map them
+    -- to something else, e.g., { [";"] = "L", [","] = H }
+    keys = {
+      { "s", mode = { "n", "x", "o" }, false },
+      { "gs", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+    },
+  },
+  {
     "nvim-telescope/telescope-live-grep-args.nvim",
     config = function()
       LazyVim.on_load("telescope.nvim", function()
