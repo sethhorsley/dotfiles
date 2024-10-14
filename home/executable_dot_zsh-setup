@@ -37,18 +37,6 @@ alias nvim-seth="NVIM_APPNAME=nvim-seth nvim"
 alias rmdocker='docker rm -f $(docker ps -aq)'
 alias r="bin/rails"
 
-if type brew &>/dev/null; then
-    FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-    autoload -Uz compinit
-    compinit
-fi
-
-autoload -Uz compinit
-for dump in ~/.zcompdump(N.mh+24); do
-  compinit
-done
-compinit -C
-
 # Enable word jumps and word deletion, aka natural text selection
 autoload -U select-word-style
 select-word-style bash

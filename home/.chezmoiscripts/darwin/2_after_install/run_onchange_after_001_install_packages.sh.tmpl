@@ -13,3 +13,13 @@ brew {{ . | quote }}
 cask {{ . | quote }}
 {{ end -}}
 EOF
+
+# set
+defaults write org.hammerspoon.Hammerspoon MJConfigFile "~/.config/hammerspoon/init.lua"
+
+if [[ ! -f ~/.local/bin/mise ]]; then
+  curl https://mise.run | sh
+  mkdir -p ~/.zsh/functions/Completion
+  mise completion zsh >~/.zsh/functions/Completion/_mise
+fi
+# eval "$(~/.local/bin/mise activate zsh)"

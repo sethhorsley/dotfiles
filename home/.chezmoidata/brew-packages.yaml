@@ -28,6 +28,7 @@ general:
   packages:
     - neofetch
     - cataclysm
+    - fswatch
     - zoxide
     - dog
     - dust
@@ -49,11 +50,15 @@ general:
     - gh
     - gum
     - joshmedeski/sesh/sesh
+    - mise
 
   casks:
     - little-snitch
     - raycast
     - livebook
+    - hammerspoon
+    - herd
+    - nikitabobko/tap/aerospace
     - discord
     - karabiner-elements
     - zoom
@@ -73,6 +78,8 @@ general:
     - ollama
     - vlc
     - descript
+    - qutebrowser
+    - marta
     - wifispoof
     - hubstaff
     - mymonero
@@ -87,5 +94,14 @@ general:
     - zed
     - tuple
     - thunderbird
-    - visual-studio-code-insiders
     - nota
+    # fonts
+    - font-space-mono-nerd-font
+    - font-monaspace
+    - font-meslo-lg-nerd-font
+    - font-hack-nerd-font
+    - font-sf-pro
+    - homebrew/cask-fonts/font-sf-mono
+    - homebrew/cask-fonts/font-sf-pro
+    - font-sf-pro
+    - sf-symbols

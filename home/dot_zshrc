@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+# zmodload zsh/zprof
+
+# autoload -Uz compinit
+# if [ $(date +'%j') != $(stat -f '%Sm' -t '%j' ~/.zcompdump) ]; then
+#   compinit
+# else
+#   compinit -C
+# fi
+#
 exists() {
     command -v "$1" &> /dev/null
 }
@@ -36,6 +45,7 @@ alias ll='eza --long --color always --icons --sort=type'
 alias la='eza --grid --all --color auto --icons --sort=type'
 alias lla='eza --long --all --color auto --icons --sort=type'
 alias tn="tmux new -s `pwd | sed 's/.*\///g'`"
+alias notes="nvim ~/files/hub/iseth/notes"
 
 tailbat() {
   tail -f "$1" | bat --paging=never -l log
@@ -62,7 +72,6 @@ export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 export CPPFLAGS="-I/opt/homebrew/opt/openjdk/include"
-. ~/.asdf/plugins/golang/set-env.zsh
 
 export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
 export RUBY_CONFIGURE_OPTS="--with-openssl-dir=$(brew --prefix openssl@1.1)"
@@ -76,3 +85,27 @@ zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 export PATH="/opt/homebrew/opt/openssl@1.1/bin:$PATH"
+
+
+# Herd injected PHP 8.3 configuration.
+export HERD_PHP_83_INI_SCAN_DIR="/Users/send/Library/Application Support/Herd/config/php/83/"
+
+
+# Herd injected PHP binary.
+export PATH="/Users/send/Library/Application Support/Herd/bin/":$PATH
+eval "$(~/.local/bin/mise activate zsh)"
+
+export PATH="$PATH:/Users/send/.local/share/gee/bin"
+export PATH="/Users/send/.bun/bin:$PATH"
+
+dlstrm() {
+  if [ -z "$2" ]; then
+    filename="video"
+  else
+    filename="$2"
+  fi
+
+  yt-dlp --live-from-start -o "${filename}.%(ext)s" "$1"
+}
+
+# zprof
