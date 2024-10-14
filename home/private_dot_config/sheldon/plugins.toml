@@ -10,6 +10,8 @@
 #
 # See the documentation for more https://github.com/rossmacarthur/sheldon#readme
 
+shell = "zsh"
+
 [plugins]
 
 [templates]
@@ -66,16 +68,14 @@ inline = 'command -v zoxide &> /dev/null && eval "$(zoxide init zsh)"'
 inline = 'command -v fnm &> /dev/null && eval "$(fnm env --use-on-cd)"'
 # [[ end -]]
 
-# [[ if eq .deviceType "personal" -]]
-[plugins.asdf]
-inline = """
-if [ ! -d "$HOME/.asdf" ]; then
-    git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.13.1
-fi
+[plugins.mise]
+inline = 'eval "$(mise activate zsh)"'
 
-source "$HOME/.asdf/asdf.sh"
+[plugins.mise-update]
+inline = """
+mise plugins upgrade
 """
-# [[ end -]]
+profiles = ["update"]
 
 # For example:
 #
