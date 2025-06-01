@@ -1,3 +1,5 @@
+vim.lsp.set_log_level("debug")
+
 return {
   {
     "neovim/nvim-lspconfig",
@@ -22,6 +24,24 @@ return {
       },
       ---@type lspconfig.options
       servers = {
+        ruby_ls = {
+          on_attach = function(client, bufnr)
+            vim.api.nvim_create_autocmd("LspAttach", {
+              callback = function(args)
+                if args.data.client_id == client.id then
+                  vim.notify("Ruby LSP attached", vim.log.levels.INFO)
+                end
+              end,
+            })
+          end,
+          handlers = {
+            ["window/logMessage"] = function(_, result, ctx)
+              if vim.lsp.get_client_by_id(ctx.client_id).name == "ruby_ls" then
+                vim.notify("Ruby LSP: " .. result.message, vim.log.levels.INFO)
+              end
+            end,
+          },
+        },
         lua_ls = {
           -- single_file_support = true,
           settings = {
@@ -56,51 +76,8 @@ return {
             },
           },
         },
-        -- ruby_ls = {
-        --   mason = false,
-        --   cmd = { os.getenv("HOME") .. "/.asdf/shims/ruby-lsp" },
-        --   init_options = {
-        --     enabledFeatures = {
-        --       "codeActions",
-        --       "codeLens",
-        --       "completion",
-        --       "definition",
-        --       "documentHighlights",
-        --       "documentSymbols",
-        --       "foldingRanges",
-        --       "hover",
-        --       "inlayHint",
-        --       "selectionRanges",
-        --       "semanticHighlighting",
-        --       "workspaceSymbol",
-        --       -- "diagnostics",
-        --       -- "documentLink",
-        --       -- "formatting",
-        --       -- "onTypeFormatting",
-        --     },
-        --   },
-        -- },
       },
     },
-  },
-  {
-    "williamboman/mason.nvim",
-    opts = function(_, opts)
-      vim.list_extend(opts.ensure_installed, {
-        "stylua",
-        "marksman",
-        "selene",
-        "luacheck",
-        "shellcheck",
-        "shfmt",
-        "tailwindcss-language-server",
-        "css-lsp",
-        "standardrb",
-        -- for python
-        "black",
-        "nextls",
-      })
-    end,
   },
   {
     "stevearc/conform.nvim",
