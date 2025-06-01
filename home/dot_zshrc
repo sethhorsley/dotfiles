@@ -93,7 +93,7 @@ export HERD_PHP_83_INI_SCAN_DIR="/Users/send/Library/Application Support/Herd/co
 
 # Herd injected PHP binary.
 export PATH="/Users/send/Library/Application Support/Herd/bin/":$PATH
-eval "$(~/.local/bin/mise activate zsh)"
+# eval "$(~/.local/bin/mise activate zsh)"
 
 export PATH="$PATH:/Users/send/.local/share/gee/bin"
 export PATH="/Users/send/.bun/bin:$PATH"
@@ -109,3 +109,15 @@ dlstrm() {
 }
 
 # zprof
+
+# pnpm
+export PNPM_HOME="/Users/send/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
+export GPG_TTY=$(tty)
