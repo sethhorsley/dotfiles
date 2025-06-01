@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function nvims() {
-	items=("default" "kickstart" "nvim-seth" "LazyVim" "NvChad" "AstroNvim")
+	items=("default" "kickstart" "nvim-seth" "LazyVim" "NvChad" "AstroNvim" "FolkeNvim")
 	config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config > " --height=~50% --layout=reverse --border --exit-0)
 	if [[ -z $config ]]; then
 		echo "Nothing selected"
@@ -29,6 +29,7 @@ alias nvim-kick="NVIM_APPNAME=kickstart nvim"
 alias nvim-chad="NVIM_APPNAME=NvChad nvim"
 alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
 alias nvim-seth="NVIM_APPNAME=nvim-seth nvim"
+alias nvim-folke="NVIM_APPNAME=FolkeNvim nvim"
 
 # apparantly i cannot make a default editor like this ??!!
 # alias nvim="nvim-lazy"
