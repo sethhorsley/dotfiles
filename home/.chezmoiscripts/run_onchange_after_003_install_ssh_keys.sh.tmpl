@@ -1,0 +1,123 @@
+#!/bin/bash
+
+{{- if .op_install_ssh_keys }}
+
+# Install SSH keys from 1Password CLI
+set -e
+
+echo "Installing SSH keys from 1Password..."
+
+# Check if op CLI is available
+if ! command -v op &> /dev/null; then
+    echo "ERROR: 1Password CLI (op) is not installed."
+    echo "Please install it first, then run chezmoi apply again."
+    exit 1
+fi
+
+# Check if user is signed in to 1Password
+if ! op account list &> /dev/null; then
+    echo ""
+    echo "======================================================================"
+    echo "You need to sign in to 1Password first."
+    echo ""
+    echo "Run: op account add --address my.1password.com --email {{ .op_email }}"
+    echo "Then: eval \$(op signin)"
+    echo ""
+    echo "After signing in, run: chezmoi apply"
+    echo "======================================================================"
+    exit 0
+fi
+
+# Create .ssh directory if it doesn't exist
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+
+{{- if .op_ssh_key_item }}
+
+# Fetch SSH private key from 1Password
+echo "Fetching SSH key: {{ .op_ssh_key_item }}"
+
+if op item get "{{ .op_ssh_key_item }}" &> /dev/null; then
+    # Get the private key to a temp file
+    op item get "{{ .op_ssh_key_item }}" --fields label=private\ key > ~/.ssh/key_temp 2>/dev/null || \
+    op item get "{{ .op_ssh_key_item }}" --fields label=private_key > ~/.ssh/key_temp 2>/dev/null || \
+    op item get "{{ .op_ssh_key_item }}" --fields type=concealed > ~/.ssh/key_temp 2>/dev/null
+
+    if [ ! -s ~/.ssh/key_temp ]; then
+        rm -f ~/.ssh/key_temp
+        echo "ERROR: Could not extract private key from 1Password item"
+        exit 1
+    fi
+
+    # Detect key type from the private key content
+    KEY_TYPE=""
+    if grep -q "BEGIN RSA PRIVATE KEY" ~/.ssh/key_temp || grep -q "BEGIN OPENSSH PRIVATE KEY" ~/.ssh/key_temp; then
+        # Check if it's RSA or Ed25519 in OpenSSH format
+        if ssh-keygen -l -f ~/.ssh/key_temp 2>/dev/null | grep -q "RSA"; then
+            KEY_TYPE="rsa"
+        elif ssh-keygen -l -f ~/.ssh/key_temp 2>/dev/null | grep -q "ED25519"; then
+            KEY_TYPE="ed25519"
+        else
+            # Default to rsa for older key formats
+            KEY_TYPE="rsa"
+        fi
+    elif grep -q "BEGIN OPENSSH PRIVATE KEY" ~/.ssh/key_temp; then
+        # Modern OpenSSH format - check the actual key type
+        if ssh-keygen -l -f ~/.ssh/key_temp 2>/dev/null | grep -q "ED25519"; then
+            KEY_TYPE="ed25519"
+        else
+            KEY_TYPE="rsa"
+        fi
+    else
+        # Default to rsa if we can't detect
+        KEY_TYPE="rsa"
+    fi
+
+    # Set the appropriate filename
+    KEY_FILE="id_${KEY_TYPE}"
+
+    # Move to the correct location
+    mv ~/.ssh/key_temp ~/.ssh/${KEY_FILE}
+    chmod 600 ~/.ssh/${KEY_FILE}
+    echo "✓ SSH private key installed to ~/.ssh/${KEY_FILE}"
+
+    # Get the public key if available
+    op item get "{{ .op_ssh_key_item }}" --fields label=public\ key > ~/.ssh/${KEY_FILE}.pub_temp 2>/dev/null || \
+    op item get "{{ .op_ssh_key_item }}" --fields label=public_key > ~/.ssh/${KEY_FILE}.pub_temp 2>/dev/null || \
+    ssh-keygen -y -f ~/.ssh/${KEY_FILE} > ~/.ssh/${KEY_FILE}.pub_temp 2>/dev/null
+
+    if [ -s ~/.ssh/${KEY_FILE}.pub_temp ]; then
+        mv ~/.ssh/${KEY_FILE}.pub_temp ~/.ssh/${KEY_FILE}.pub
+        chmod 644 ~/.ssh/${KEY_FILE}.pub
+        echo "✓ SSH public key installed to ~/.ssh/${KEY_FILE}.pub"
+    else
+        rm -f ~/.ssh/${KEY_FILE}.pub_temp
+        echo "Warning: Could not get public key, but private key is installed"
+    fi
+else
+    echo "ERROR: Could not find 1Password item: {{ .op_ssh_key_item }}"
+    echo ""
+    echo "Available SSH key items:"
+    op item list --categories "SSH Key" 2>/dev/null || echo "  (none found or not signed in)"
+    echo ""
+    echo "To see all items: op item list"
+    echo "To update the item name: chezmoi init --force"
+    exit 1
+fi
+
+{{- else }}
+
+echo "No SSH key item specified. Skipping SSH key installation."
+echo "To configure: chezmoi init --force"
+
+{{- end }}
+
+echo ""
+echo "✓ SSH key setup complete!"
+
+{{- else }}
+
+echo "SSH key installation from 1Password is disabled."
+echo "To enable: chezmoi init --force"
+
+{{- end }}

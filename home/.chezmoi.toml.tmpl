@@ -4,7 +4,14 @@
 
 {{- $op_email := promptString "1P email" "jack@meoff.com" -}}
 
-{{- $op_ssh_enabled := promptBool "Enable 1Password SSH agent" false -}}
+{{- $op_install_ssh_keys := promptBool "Install SSH keys from 1Password CLI" false -}}
+
+{{- $op_ssh_key_item := "" -}}
+{{- if $op_install_ssh_keys -}}
+{{-   $op_ssh_key_item = promptString "1Password SSH key item name/ID" "" -}}
+{{- end -}}
+
+{{- $op_ssh_enabled := promptBool "Enable 1Password SSH agent (macOS only, requires desktop app)" false -}}
 
 {{- $op_ssh_socket := "" -}}
 {{- if $op_ssh_enabled -}}
@@ -29,6 +36,8 @@ encryption = "age"
     name = {{ $name | quote }}
     git_email = {{ $git_email | quote }}
     op_email = {{ $op_email | quote }}
+    op_install_ssh_keys = {{ $op_install_ssh_keys }}
+    op_ssh_key_item = {{ $op_ssh_key_item | quote }}
     op_ssh_enabled = {{ $op_ssh_enabled }}
     op_ssh_socket = {{ $op_ssh_socket | quote }}
 

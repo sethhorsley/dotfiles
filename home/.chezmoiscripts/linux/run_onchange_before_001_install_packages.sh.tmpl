@@ -101,3 +101,32 @@ if [[ ! -f ~/.local/bin/mise ]]; then
 else
   echo "✓ mise already installed"
 fi
+
+# Install 1Password CLI
+if ! command -v op &> /dev/null; then
+  echo "Installing 1Password CLI..."
+
+  # Add 1Password repository key
+  curl -sS https://downloads.1password.com/linux/keys/1password.asc | \
+    {{ $sudo }}gpg --dearmor --output /usr/share/keyrings/1password-archive-keyring.gpg
+
+  # Add 1Password repository
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/1password-archive-keyring.gpg] https://downloads.1password.com/linux/debian/$(dpkg --print-architecture) stable main" | \
+    {{ $sudo }}tee /etc/apt/sources.list.d/1password.list
+
+  # Add package verification
+  {{ $sudo }}mkdir -p /etc/debsig/policies/AC2D62742012EA22/
+  curl -sS https://downloads.1password.com/linux/debian/debsig/1password.pol | \
+    {{ $sudo }}tee /etc/debsig/policies/AC2D62742012EA22/1password.pol
+
+  {{ $sudo }}mkdir -p /usr/share/debsig/keyrings/AC2D62742012EA22
+  curl -sS https://downloads.1password.com/linux/keys/1password.asc | \
+    {{ $sudo }}gpg --dearmor --output /usr/share/debsig/keyrings/AC2D62742012EA22/debsig.gpg
+
+  # Install 1Password CLI
+  {{ $sudo }}apt update && {{ $sudo }}apt install -y 1password-cli
+
+  echo "✓ 1Password CLI installed successfully"
+else
+  echo "✓ 1Password CLI already installed"
+fi
