@@ -4,6 +4,19 @@
 
 {{- $op_email := promptString "1P email" "jack@meoff.com" -}}
 
+{{- $op_ssh_enabled := promptBool "Enable 1Password SSH agent" false -}}
+
+{{- $op_ssh_socket := "" -}}
+{{- if $op_ssh_enabled -}}
+{{-   if eq .chezmoi.os "darwin" -}}
+{{-     $op_ssh_socket = promptString "1Password SSH agent socket path" "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock" -}}
+{{-   else if eq .chezmoi.os "linux" -}}
+{{-     $op_ssh_socket = promptString "1Password SSH agent socket path" "~/.1password/agent.sock" -}}
+{{-   else -}}
+{{-     $op_ssh_socket = promptString "1Password SSH agent socket path" "" -}}
+{{-   end -}}
+{{- end -}}
+
 progress = true
 
 encryption = "age"
@@ -16,6 +29,8 @@ encryption = "age"
     name = {{ $name | quote }}
     git_email = {{ $git_email | quote }}
     op_email = {{ $op_email | quote }}
+    op_ssh_enabled = {{ $op_ssh_enabled }}
+    op_ssh_socket = {{ $op_ssh_socket | quote }}
 
 [edit]
     command = "nvim"

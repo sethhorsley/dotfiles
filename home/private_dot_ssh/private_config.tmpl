@@ -1,0 +1,14 @@
+{{- /* vim: set filetype=sshconfig: */ -}}
+# 1Password SSH Agent Configuration
+{{- if .op_ssh_enabled }}
+Host *
+    IdentityAgent "{{ .op_ssh_socket }}"
+{{- end }}
+
+# Default SSH Configuration
+Host *
+    AddKeysToAgent yes
+{{- if eq .chezmoi.os "darwin" }}
+    UseKeychain yes
+{{- end }}
+    IdentitiesOnly yes
