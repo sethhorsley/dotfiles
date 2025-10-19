@@ -2,6 +2,8 @@
 
 {{- $git_email := promptString "git email" "github.dvxhi@sl.isethi.com" -}}
 
+{{- $age_key := promptString "age encryption key (private key)" "" -}}
+
 progress = true
 
 encryption = "age"
@@ -13,6 +15,7 @@ encryption = "age"
 [data]
     name = {{ $name | quote }}
     git_email = {{ $git_email | quote }}
+    age_key = {{ $age_key | quote }}
 
 [edit]
     command = "nvim"

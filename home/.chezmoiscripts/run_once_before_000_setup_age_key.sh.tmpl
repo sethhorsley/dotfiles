@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Setup age encryption key
+# This runs once before any other scripts to ensure decryption works
+
+{{- if .age_key }}
+
+echo "Setting up age encryption key..."
+
+# Create chezmoi config directory
+mkdir -p ~/.config/chezmoi
+
+# Write the age key to the identity file
+cat > ~/.config/chezmoi/key.txt <<'AGE_KEY_EOF'
+{{ .age_key }}
+AGE_KEY_EOF
+
+# Set proper permissions
+chmod 600 ~/.config/chezmoi/key.txt
+
+echo "✓ Age encryption key configured"
+
+{{- else }}
+
+echo "No age encryption key provided. Encrypted files will not be decrypted."
+echo "To add the key later, run: chezmoi init --force"
+
+{{- end }}
