@@ -31,6 +31,7 @@ set -eufo pipefail
      "libdb-dev"
      "uuid-dev"
      "bat"
+     "jq"
 -}}
 
 {{ $sudo }}apt-get install -y {{ $packages | join " " }}
