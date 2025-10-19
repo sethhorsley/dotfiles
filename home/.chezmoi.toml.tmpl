@@ -2,7 +2,11 @@
 
 {{- $git_email := promptString "git email" "github.dvxhi@sl.isethi.com" -}}
 
-{{- $age_key := promptString "age encryption key (private key)" "" -}}
+{{- $age_key := "" -}}
+{{- $age_key_file := joinPath .chezmoi.homeDir ".config/chezmoi/key.txt" -}}
+{{- if not (stat $age_key_file) -}}
+{{-   $age_key = promptString "age encryption key (private key)" "" -}}
+{{- end -}}
 
 progress = true
 

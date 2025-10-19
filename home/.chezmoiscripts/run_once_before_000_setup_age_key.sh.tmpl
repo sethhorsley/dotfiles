@@ -3,6 +3,13 @@
 # Setup age encryption key
 # This runs once before any other scripts to ensure decryption works
 
+# Check if age key file already exists
+if [ -f ~/.config/chezmoi/key.txt ]; then
+    echo "✓ Age encryption key already exists at ~/.config/chezmoi/key.txt"
+    exit 0
+fi
+
+{{- if hasKey . "age_key" }}
 {{- if .age_key }}
 
 echo "Setting up age encryption key..."
@@ -24,5 +31,10 @@ echo "✓ Age encryption key configured"
 
 echo "No age encryption key provided. Encrypted files will not be decrypted."
 echo "To add the key later, run: chezmoi init --force"
+
+{{- end }}
+{{- else }}
+
+echo "Age key not configured. Run: chezmoi init"
 
 {{- end }}
