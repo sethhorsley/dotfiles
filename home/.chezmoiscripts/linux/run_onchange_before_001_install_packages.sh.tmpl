@@ -30,6 +30,7 @@ set -eufo pipefail
      "libgdbm-dev"
      "libdb-dev"
      "uuid-dev"
+     "bat"
 -}}
 
 {{ $sudo }}apt-get install -y {{ $packages | join " " }}

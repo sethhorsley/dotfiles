@@ -84,10 +84,10 @@ VAULT_FLAG="--vault {{ .op_ssh_key_vault }}"
 # Try to get the item and capture the actual error
 ITEM_CHECK=$(op item get "{{ .op_ssh_key_item }}" $VAULT_FLAG 2>&1)
 if [ $? -eq 0 ]; then
-    # Get the private key to a temp file
-    op item get "{{ .op_ssh_key_item }}" $VAULT_FLAG --fields label=private\ key > ~/.ssh/key_temp 2>/dev/null || \
-    op item get "{{ .op_ssh_key_item }}" $VAULT_FLAG --fields label=private_key > ~/.ssh/key_temp 2>/dev/null || \
-    op item get "{{ .op_ssh_key_item }}" $VAULT_FLAG --fields type=concealed > ~/.ssh/key_temp 2>/dev/null
+    # Get the private key to a temp file (need --reveal to get the actual secret value)
+    op item get "{{ .op_ssh_key_item }}" $VAULT_FLAG --reveal --fields label=private\ key > ~/.ssh/key_temp 2>/dev/null || \
+    op item get "{{ .op_ssh_key_item }}" $VAULT_FLAG --reveal --fields label=private_key > ~/.ssh/key_temp 2>/dev/null || \
+    op item get "{{ .op_ssh_key_item }}" $VAULT_FLAG --reveal --fields type=concealed > ~/.ssh/key_temp 2>/dev/null
 
     if [ ! -s ~/.ssh/key_temp ]; then
         rm -f ~/.ssh/key_temp
@@ -128,8 +128,8 @@ if [ $? -eq 0 ]; then
     echo "✓ SSH private key installed to ~/.ssh/${KEY_FILE}"
 
     # Get the public key if available
-    op item get "{{ .op_ssh_key_item }}" $VAULT_FLAG --fields label=public\ key > ~/.ssh/${KEY_FILE}.pub_temp 2>/dev/null || \
-    op item get "{{ .op_ssh_key_item }}" $VAULT_FLAG --fields label=public_key > ~/.ssh/${KEY_FILE}.pub_temp 2>/dev/null || \
+    op item get "{{ .op_ssh_key_item }}" $VAULT_FLAG --reveal --fields label=public\ key > ~/.ssh/${KEY_FILE}.pub_temp 2>/dev/null || \
+    op item get "{{ .op_ssh_key_item }}" $VAULT_FLAG --reveal --fields label=public_key > ~/.ssh/${KEY_FILE}.pub_temp 2>/dev/null || \
     ssh-keygen -y -f ~/.ssh/${KEY_FILE} > ~/.ssh/${KEY_FILE}.pub_temp 2>/dev/null
 
     if [ -s ~/.ssh/${KEY_FILE}.pub_temp ]; then
