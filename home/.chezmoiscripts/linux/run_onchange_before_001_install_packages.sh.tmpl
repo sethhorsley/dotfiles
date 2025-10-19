@@ -33,3 +33,71 @@ set -eufo pipefail
 -}}
 
 {{ $sudo }}apt-get install -y {{ $packages | join " " }}
+
+# Set zsh as default shell
+if [ "$SHELL" != "$(which zsh)" ]; then
+  echo "Setting zsh as default shell..."
+
+  # Add zsh to /etc/shells if not already there
+  if ! grep -q "$(which zsh)" /etc/shells; then
+    echo "$(which zsh)" | {{ $sudo }}tee -a /etc/shells
+  fi
+
+  # Change default shell to zsh
+  {{ $sudo }}chsh -s "$(which zsh)" "$USER"
+  echo "✓ zsh set as default shell (restart your session for changes to take effect)"
+else
+  echo "✓ zsh is already the default shell"
+fi
+
+# Generate default .zshrc if it doesn't exist
+if [[ ! -f ~/.zshrc ]]; then
+  echo "Generating default .zshrc..."
+  cat > ~/.zshrc << 'ZSHRC_EOF'
+# Default zsh configuration
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+# Set name of the theme to load
+ZSH_THEME="robbyrussell"
+
+# Load oh-my-zsh
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+export PATH="$HOME/.local/bin:$PATH"
+
+# Load mise if available
+if [ -f ~/.local/bin/mise ]; then
+  eval "$(~/.local/bin/mise activate zsh)"
+fi
+ZSHRC_EOF
+  echo "✓ Default .zshrc created"
+else
+  echo "✓ .zshrc already exists"
+fi
+
+# Install Oh My Zsh
+if [[ ! -d ~/.oh-my-zsh ]]; then
+  echo "Installing Oh My Zsh..."
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+  echo "✓ Oh My Zsh installed successfully"
+else
+  echo "✓ Oh My Zsh already installed"
+fi
+
+# Install mise
+if [[ ! -f ~/.local/bin/mise ]]; then
+  echo "Installing mise..."
+  curl https://mise.run | sh
+
+  # Setup zsh completion if zsh is available
+  if command -v zsh &> /dev/null; then
+    mkdir -p ~/.zsh/functions/Completion
+    ~/.local/bin/mise completion zsh > ~/.zsh/functions/Completion/_mise
+  fi
+
+  echo "✓ mise installed successfully"
+else
+  echo "✓ mise already installed"
+fi
