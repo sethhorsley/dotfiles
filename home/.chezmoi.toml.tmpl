@@ -2,34 +2,6 @@
 
 {{- $git_email := promptString "git email" "github.dvxhi@sl.isethi.com" -}}
 
-{{- $op_email := promptString "1P email" "jack@meoff.com" -}}
-
-{{- $op_install_ssh_keys := promptBool "Install SSH keys from 1Password CLI" false -}}
-
-{{- $op_ssh_key_item := "" -}}
-{{- $op_ssh_key_vault := "" -}}
-{{- $op_service_account_token := "" -}}
-{{- if $op_install_ssh_keys -}}
-{{-   $op_ssh_key_item = promptString "1Password SSH key item name/ID" "" -}}
-{{-   $op_ssh_key_vault = promptString "1Password vault name (required for service accounts)" "servers" -}}
-{{-   if eq .chezmoi.os "linux" -}}
-{{-     $op_service_account_token = promptString "1Password service account token (optional, recommended for servers)" "" -}}
-{{-   end -}}
-{{- end -}}
-
-{{- $op_ssh_enabled := promptBool "Enable 1Password SSH agent (macOS only, requires desktop app)" false -}}
-
-{{- $op_ssh_socket := "" -}}
-{{- if $op_ssh_enabled -}}
-{{-   if eq .chezmoi.os "darwin" -}}
-{{-     $op_ssh_socket = promptString "1Password SSH agent socket path" "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock" -}}
-{{-   else if eq .chezmoi.os "linux" -}}
-{{-     $op_ssh_socket = promptString "1Password SSH agent socket path" "~/.1password/agent.sock" -}}
-{{-   else -}}
-{{-     $op_ssh_socket = promptString "1Password SSH agent socket path" "" -}}
-{{-   end -}}
-{{- end -}}
-
 progress = true
 
 encryption = "age"
@@ -41,13 +13,6 @@ encryption = "age"
 [data]
     name = {{ $name | quote }}
     git_email = {{ $git_email | quote }}
-    op_email = {{ $op_email | quote }}
-    op_install_ssh_keys = {{ $op_install_ssh_keys }}
-    op_ssh_key_item = {{ $op_ssh_key_item | quote }}
-    op_ssh_key_vault = {{ $op_ssh_key_vault | quote }}
-    op_service_account_token = {{ $op_service_account_token | quote }}
-    op_ssh_enabled = {{ $op_ssh_enabled }}
-    op_ssh_socket = {{ $op_ssh_socket | quote }}
 
 [edit]
     command = "nvim"
@@ -61,5 +26,4 @@ encryption = "age"
 #     autoPush = true
 
 # [scriptEnv]
-#     OP_EMAIL = {{ $op_email }}
-#     lla = "sssss"
+#     EXAMPLE = "value"
