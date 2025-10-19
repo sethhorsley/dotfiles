@@ -14,16 +14,37 @@ if ! command -v op &> /dev/null; then
     exit 1
 fi
 
-# Check if user is signed in to 1Password
-if ! op account list &> /dev/null; then
+# Check if user is authenticated to 1Password
+if ! op whoami &> /dev/null; then
     echo ""
     echo "======================================================================"
-    echo "You need to sign in to 1Password first."
+    echo "ERROR: Not authenticated to 1Password"
     echo ""
-    echo "Run: op account add --address my.1password.com --email {{ .op_email }}"
-    echo "Then: eval \$(op signin)"
+    echo "You need to authenticate to 1Password before installing SSH keys."
     echo ""
-    echo "After signing in, run: chezmoi apply"
+{{- if eq .chezmoi.os "darwin" }}
+    echo "Option 1 (Recommended for macOS): Use 1Password Desktop App Integration"
+    echo "  1. Install 1Password desktop app if not already installed"
+    echo "  2. Sign in to your 1Password account in the app"
+    echo "  3. Go to Settings → Developer → Enable 'Connect with 1Password CLI'"
+    echo "  4. The CLI will automatically use the app's authentication"
+    echo ""
+    echo "Option 2: Manual signin"
+    echo "  1. op account add --address my.1password.com --email {{ .op_email }}"
+    echo "  2. eval \$(op signin)"
+    echo ""
+{{- else }}
+    echo "Option 1 (Recommended for servers): Use Service Account"
+    echo "  1. Create a service account: https://developer.1password.com/docs/service-accounts/"
+    echo "  2. Set environment variable: export OP_SERVICE_ACCOUNT_TOKEN='your-token'"
+    echo "  3. Add to your shell profile to persist"
+    echo ""
+    echo "Option 2: Manual signin"
+    echo "  1. op account add --address my.1password.com --email {{ .op_email }}"
+    echo "  2. eval \$(op signin)"
+    echo ""
+{{- end }}
+    echo "After authenticating, run: chezmoi apply"
     echo "======================================================================"
     exit 0
 fi
