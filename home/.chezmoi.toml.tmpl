@@ -7,9 +7,11 @@
 {{- $op_install_ssh_keys := promptBool "Install SSH keys from 1Password CLI" false -}}
 
 {{- $op_ssh_key_item := "" -}}
+{{- $op_ssh_key_vault := "" -}}
 {{- $op_service_account_token := "" -}}
 {{- if $op_install_ssh_keys -}}
 {{-   $op_ssh_key_item = promptString "1Password SSH key item name/ID" "" -}}
+{{-   $op_ssh_key_vault = promptString "1Password vault name (required for service accounts)" "servers" -}}
 {{-   if eq .chezmoi.os "linux" -}}
 {{-     $op_service_account_token = promptString "1Password service account token (optional, recommended for servers)" "" -}}
 {{-   end -}}
@@ -42,6 +44,7 @@ encryption = "age"
     op_email = {{ $op_email | quote }}
     op_install_ssh_keys = {{ $op_install_ssh_keys }}
     op_ssh_key_item = {{ $op_ssh_key_item | quote }}
+    op_ssh_key_vault = {{ $op_ssh_key_vault | quote }}
     op_service_account_token = {{ $op_service_account_token | quote }}
     op_ssh_enabled = {{ $op_ssh_enabled }}
     op_ssh_socket = {{ $op_ssh_socket | quote }}

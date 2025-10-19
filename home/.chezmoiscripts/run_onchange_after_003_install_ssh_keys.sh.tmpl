@@ -75,11 +75,19 @@ chmod 700 ~/.ssh
 # Fetch SSH private key from 1Password
 echo "Fetching SSH key: {{ .op_ssh_key_item }}"
 
-if op item get "{{ .op_ssh_key_item }}" &> /dev/null; then
+# Build vault flag if vault is specified
+VAULT_FLAG=""
+{{- if .op_ssh_key_vault }}
+VAULT_FLAG="--vault {{ .op_ssh_key_vault }}"
+{{- end }}
+
+# Try to get the item and capture the actual error
+ITEM_CHECK=$(op item get "{{ .op_ssh_key_item }}" $VAULT_FLAG 2>&1)
+if [ $? -eq 0 ]; then
     # Get the private key to a temp file
-    op item get "{{ .op_ssh_key_item }}" --fields label=private\ key > ~/.ssh/key_temp 2>/dev/null || \
-    op item get "{{ .op_ssh_key_item }}" --fields label=private_key > ~/.ssh/key_temp 2>/dev/null || \
-    op item get "{{ .op_ssh_key_item }}" --fields type=concealed > ~/.ssh/key_temp 2>/dev/null
+    op item get "{{ .op_ssh_key_item }}" $VAULT_FLAG --fields label=private\ key > ~/.ssh/key_temp 2>/dev/null || \
+    op item get "{{ .op_ssh_key_item }}" $VAULT_FLAG --fields label=private_key > ~/.ssh/key_temp 2>/dev/null || \
+    op item get "{{ .op_ssh_key_item }}" $VAULT_FLAG --fields type=concealed > ~/.ssh/key_temp 2>/dev/null
 
     if [ ! -s ~/.ssh/key_temp ]; then
         rm -f ~/.ssh/key_temp
@@ -120,8 +128,8 @@ if op item get "{{ .op_ssh_key_item }}" &> /dev/null; then
     echo "✓ SSH private key installed to ~/.ssh/${KEY_FILE}"
 
     # Get the public key if available
-    op item get "{{ .op_ssh_key_item }}" --fields label=public\ key > ~/.ssh/${KEY_FILE}.pub_temp 2>/dev/null || \
-    op item get "{{ .op_ssh_key_item }}" --fields label=public_key > ~/.ssh/${KEY_FILE}.pub_temp 2>/dev/null || \
+    op item get "{{ .op_ssh_key_item }}" $VAULT_FLAG --fields label=public\ key > ~/.ssh/${KEY_FILE}.pub_temp 2>/dev/null || \
+    op item get "{{ .op_ssh_key_item }}" $VAULT_FLAG --fields label=public_key > ~/.ssh/${KEY_FILE}.pub_temp 2>/dev/null || \
     ssh-keygen -y -f ~/.ssh/${KEY_FILE} > ~/.ssh/${KEY_FILE}.pub_temp 2>/dev/null
 
     if [ -s ~/.ssh/${KEY_FILE}.pub_temp ]; then
@@ -133,12 +141,23 @@ if op item get "{{ .op_ssh_key_item }}" &> /dev/null; then
         echo "Warning: Could not get public key, but private key is installed"
     fi
 else
-    echo "ERROR: Could not find 1Password item: {{ .op_ssh_key_item }}"
+    echo "ERROR: Could not access 1Password item: {{ .op_ssh_key_item }}"
+    echo ""
+    echo "Actual error from 1Password CLI:"
+    echo "$ITEM_CHECK"
     echo ""
     echo "Available SSH key items:"
     op item list --categories "SSH Key" 2>/dev/null || echo "  (none found or not signed in)"
     echo ""
-    echo "To see all items: op item list"
+    echo "Debugging info:"
+    echo "- Trying to access item: {{ .op_ssh_key_item }}"
+    echo "- Accessible vaults: $(op vault list --format json 2>/dev/null | grep -o '"name":"[^"]*"' | cut -d'"' -f4 | tr '\n' ', ')"
+    echo ""
+    echo "Possible issues:"
+    echo "1. Service account may need 'read items and secrets' permission (not just 'read items')"
+    echo "2. The SSH key might be in a different vault"
+    echo "3. Try using the item title instead of ID, or vice versa"
+    echo ""
     echo "To update the item name: chezmoi init --force"
     exit 1
 fi
