@@ -46,6 +46,7 @@ alias la='eza --grid --all --color auto --icons --sort=type'
 alias lla='eza --long --all --color auto --icons --sort=type'
 alias tn="tmux new -s `pwd | sed 's/.*\///g'`"
 alias notes="nvim ~/files/hub/iseth/notes"
+alias oc=opencode
 
 tailbat() {
   tail -f "$1" | bat --paging=never -l log
@@ -103,7 +104,5 @@ export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 export GPG_TTY=$(tty)
+export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH"
 
-. "$HOME/.atuin/bin/env"
-
-eval "$(atuin init zsh)"

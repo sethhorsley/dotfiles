@@ -8,6 +8,12 @@
 {{-   $age_key = promptString "age encryption key (private key)" "" -}}
 {{- end -}}
 
+{{- $op_ssh_enabled := promptBool "Enable 1Password SSH agent" false -}}
+{{- $op_ssh_socket := "" -}}
+{{- if $op_ssh_enabled -}}
+{{-   $op_ssh_socket = promptString "1Password SSH socket path" "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock" -}}
+{{- end -}}
+
 progress = true
 
 encryption = "age"
@@ -20,6 +26,8 @@ encryption = "age"
     name = {{ $name | quote }}
     git_email = {{ $git_email | quote }}
     age_key = {{ $age_key | quote }}
+    op_ssh_enabled = {{ $op_ssh_enabled }}
+    op_ssh_socket = {{ $op_ssh_socket | quote }}
 
 [edit]
     command = "nvim"

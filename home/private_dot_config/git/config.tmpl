@@ -1,6 +1,7 @@
 [user]
   name = Seth Horsley
   email = github.dvxhi@sl.isethi.com
+       signingkey = ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDaHWt7Y90od1qT3tPUdOPgRgBMjNNogkvX9Eh/J5x4hnuzCofivPPUYw1VwJQOPqv7VE6cAfSfxWDakP9hZa5huUMbQka7rPxFCKh1r1lIwh3FOdgyTY3CroEaC+hz6YctpYmR9vJlT32ATs3zyXdedDxjrtstQsBFBI8es3DjJFw0lMCc3TFm9wrIojp6Oymm7aTLfT6yR99eyDnd4jpUd3nhTC0x8HYf18c4ylTjpKIrvCAAVZ7AePuyvd5s9V4M3iIAWB6GsE5/OyiCadSHO83cGJlAMDcgpAUMBWo9m1QxO3ai64lW8y+UHoDm9UNznYg1P7as+c2289F4JexL
 
 [color]
   ui = auto
@@ -58,3 +59,9 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+[commit]
+	gpgsign = true

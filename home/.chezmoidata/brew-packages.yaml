@@ -1,5 +1,6 @@
 taps:
   - FelixKratz/formulae
+  - tarkah/tickrs
 
 essential:
   packages:
@@ -45,8 +46,10 @@ general:
     - unar
     - fd
     - poppler
+    - tickrs
     - gh
     - gum
+    - tw93/tap/mole
     - joshmedeski/sesh/sesh
     - mise
 
@@ -68,6 +71,7 @@ general:
     - cursor
     - tailscale
     - multipass
+    - jordanbaird-ice
     - setapp
     - telegram
     - parallels
