@@ -15,11 +15,12 @@ essential:
     - tmux
     - age
     - fzf
+    - anomalyco/tap/opencode
+    - powerlevel10k
+    - lazygit
 
   casks:
-    - iterm2
     - wezterm
-    - alacritty
     - font-meslo-lg-nerd-font
 
 general:
@@ -99,7 +100,7 @@ general:
     - font-meslo-lg-nerd-font
     - font-hack-nerd-font
     - font-sf-pro
-    - homebrew/cask-fonts/font-sf-mono
+    - font-sf-mono
     - homebrew/cask-fonts/font-sf-pro
     - font-sf-pro
     - sf-symbols
