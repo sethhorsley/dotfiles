@@ -11,8 +11,6 @@ essential:
     - jq
     - nvim
     - sketchybar
-    - koekeishiya/formulae/yabai
-    - koekeishiya/formulae/skhd
     - htop
     - tmux
     - age
