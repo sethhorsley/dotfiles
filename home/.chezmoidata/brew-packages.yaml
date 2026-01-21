@@ -48,7 +48,7 @@ general:
     - gh
     - gum
     - tw93/tap/mole
-    - joshmedeski/sesh/sesh
+    - sesh
     - mise
 
   casks:
@@ -72,7 +72,6 @@ general:
     - jordanbaird-ice
     - setapp
     - telegram
-    - parallels
     - orbstack
     - ollama
     - vlc
