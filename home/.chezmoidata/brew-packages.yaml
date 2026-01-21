@@ -10,7 +10,11 @@ essential:
     - ripgrep
     - jq
     - nvim
+    - libyaml
+    - gmp
     - sketchybar
+    - sheldon
+    - bat
     - htop
     - tmux
     - age
@@ -22,6 +26,7 @@ essential:
   casks:
     - wezterm
     - font-meslo-lg-nerd-font
+    - obsidian
 
 general:
   packages:

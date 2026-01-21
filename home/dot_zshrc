@@ -53,6 +53,7 @@ tailbat() {
 }
 
 if exists zoxide; then
+  eval "$(zoxide init zsh)"
   export _ZO_DATA_DIR="$HOME/.local/share"
   export _ZO_ECHO=1
 
@@ -100,9 +101,9 @@ dlstrm() {
 
 # zprof
 
-export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
-export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
-export GPG_TTY=$(tty)
+# export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+# export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
+# export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
+# export GPG_TTY=$(tty)
 export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH"
 

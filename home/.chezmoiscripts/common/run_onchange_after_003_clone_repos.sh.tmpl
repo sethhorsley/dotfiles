@@ -1,0 +1,50 @@
+#!/bin/bash
+
+set -eu
+
+echo "==> 📦 After install - Clone repositories"
+
+repos=(
+{{- range .repos }}
+  {{ . | quote }}
+{{- end }}
+)
+
+if [[ ${#repos[@]} -eq 0 ]]; then
+  exit 0
+fi
+
+base_dir="$HOME/files"
+
+clone_repo() {
+  local repo_input="$1"
+  local repo_url="$repo_input"
+  local normalized="$repo_input"
+
+  normalized="${normalized%.git}"
+  normalized="${normalized#git@github.com:}"
+  normalized="${normalized#https://github.com/}"
+  normalized="${normalized#http://github.com/}"
+
+  if [[ "$normalized" == */* ]]; then
+    repo_url="git@github.com:${normalized}.git"
+  else
+    echo "Skipping unrecognized repo input: $repo_input" >&2
+    return 0
+  fi
+
+  local owner="${normalized%%/*}"
+  local repo_name="${normalized##*/}"
+  local target_dir="$base_dir/$owner/$repo_name"
+
+  if [[ -d "$target_dir/.git" ]]; then
+    return 0
+  fi
+
+  mkdir -p "$(dirname "$target_dir")"
+  git clone "$repo_url" "$target_dir"
+}
+
+for repo in "${repos[@]}"; do
+  clone_repo "$repo"
+done
