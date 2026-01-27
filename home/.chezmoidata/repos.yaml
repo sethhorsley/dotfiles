@@ -2,5 +2,6 @@ repos: [
   "https://github.com/folke/lazy.nvim",
   "https://github.com/statecert/web-3",
   "https://github.com/basecamp/fizzy",
-  "https://github.com/basecamp/once-campfire"
+  "https://github.com/basecamp/once-campfire",
+  "https://github.com/sethhorsley/masked-email-manager"
 ]

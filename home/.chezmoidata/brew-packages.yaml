@@ -21,11 +21,14 @@ essential:
     - fzf
     - anomalyco/tap/opencode
     - powerlevel10k
+    - heroku
     - lazygit
 
   casks:
     - wezterm
     - font-meslo-lg-nerd-font
+    - 1password-cli
+    - postgres-unofficial
     - obsidian
 
 general:
