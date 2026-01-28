@@ -12,7 +12,6 @@ essential:
     - nvim
     - libyaml
     - gmp
-    - sketchybar
     - sheldon
     - bat
     - htop
@@ -26,10 +25,12 @@ essential:
 
   casks:
     - wezterm
+    - 1password
     - font-meslo-lg-nerd-font
     - 1password-cli
     - postgres-unofficial
     - obsidian
+    - raycast
 
 general:
   packages:
@@ -56,13 +57,12 @@ general:
     - tickrs
     - gh
     - gum
-    - tw93/tap/mole
+    - mole
     - sesh
     - mise
 
   casks:
     - little-snitch
-    - raycast
     - livebook
     - hammerspoon
     - herd
@@ -70,19 +70,19 @@ general:
     - discord
     - karabiner-elements
     - zoom
-    - docker
+    - docker-desktop
     - firefox
     - tor-browser
     - tableplus
     - notion
     - cursor
-    - tailscale
+    - tailscale-app
     - multipass
     - jordanbaird-ice
     - setapp
     - telegram
     - orbstack
-    - ollama
+    - ollama-app
     - vlc
     - descript
     - qutebrowser
@@ -107,8 +107,9 @@ general:
     - font-monaspace
     - font-meslo-lg-nerd-font
     - font-hack-nerd-font
-    - font-sf-pro
     - font-sf-mono
-    - homebrew/cask-fonts/font-sf-pro
     - font-sf-pro
     - sf-symbols
+    - textsniper
+    - visual-studio-code
+    - whatsapp
