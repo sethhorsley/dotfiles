@@ -3,5 +3,9 @@ repos: [
   "https://github.com/statecert/web-3",
   "https://github.com/basecamp/fizzy",
   "https://github.com/basecamp/once-campfire",
-  "https://github.com/sethhorsley/masked-email-manager"
+  "https://github.com/sethhorsley/masked-email-manager",
+  "https://github.com/pay-rails/pay",
+  "https://github.com/mrAdamLee/betterwater",
+  "https://github.com/sethhorsley/govytravel-web",
+  "https://github.com/sethhorsley/govy-app"
 ]

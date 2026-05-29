@@ -4,7 +4,7 @@ taps:
 
 essential:
   packages:
-    - neofetch
+    - chezmoi
     - zoxide
     - coreutils
     - ripgrep
@@ -22,6 +22,8 @@ essential:
     - powerlevel10k
     - heroku
     - lazygit
+    - mise
+    - sesh
 
   casks:
     - wezterm
@@ -31,13 +33,13 @@ essential:
     - postgres-unofficial
     - obsidian
     - raycast
+    - claude-code
+    - brave-browser
 
 general:
   packages:
-    - neofetch
     - cataclysm
     - fswatch
-    - zoxide
     - dust
     - xh
     - duf
@@ -58,14 +60,14 @@ general:
     - gh
     - gum
     - mole
-    - sesh
-    - mise
 
   casks:
+    - codex-app
     - little-snitch
     - livebook
     - hammerspoon
     - herd
+    - hyperkey
     - nikitabobko/tap/aerospace
     - discord
     - karabiner-elements
@@ -78,7 +80,7 @@ general:
     - cursor
     - tailscale-app
     - multipass
-    - jordanbaird-ice
+    - thaw
     - setapp
     - telegram
     - orbstack
@@ -90,7 +92,6 @@ general:
     - wifispoof
     - hubstaff
     - mymonero
-    - brave-browser
     - spotify
     - transmit
     - transmission

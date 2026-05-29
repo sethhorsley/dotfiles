@@ -4,6 +4,12 @@ echo "==> 📜 Before decrypt"
 
 if [ ! -f "${HOME}/.config/chezmoi/key.txt" ]; then
 	mkdir -p "${HOME}/.config/chezmoi"
-	chezmoi age decrypt --output "${HOME}/.config/chezmoi/key.txt" --passphrase "{{ .chezmoi.sourceDir }}/key.txt.age"
-	chmod 600 "${HOME}/.config/chezmoi/key.txt"
+	if chezmoi age decrypt --output "${HOME}/.config/chezmoi/key.txt" --passphrase "{{ .chezmoi.sourceDir }}/key.txt.age" 2>/dev/null; then
+		chmod 600 "${HOME}/.config/chezmoi/key.txt"
+		echo "Age key configured."
+	else
+		rm -f "${HOME}/.config/chezmoi/key.txt"
+		echo "Warning: Age key not set up. Encrypted files will be skipped."
+		echo "Run 'chezmoi apply' again once you have the passphrase."
+	fi
 fi

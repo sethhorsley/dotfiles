@@ -15,3 +15,8 @@
 
 vscode/**
 key.txt.age
+
+{{ if not (stat (joinPath .chezmoi.homeDir ".config/chezmoi/key.txt")) }}
+.zsh_variables
+.config/secrets.yaml
+{{ end }}
