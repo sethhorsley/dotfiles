@@ -7,5 +7,6 @@ repos: [
   "https://github.com/pay-rails/pay",
   "https://github.com/mrAdamLee/betterwater",
   "https://github.com/sethhorsley/govytravel-web",
-  "https://github.com/sethhorsley/govy-app"
+  "https://github.com/sethhorsley/govy-app",
+  "https://github.com/Shpigford/clearly"
 ]

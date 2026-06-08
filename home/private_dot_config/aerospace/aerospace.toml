@@ -184,6 +184,12 @@ alt-shift-z = 'move-node-to-workspace Z'
 
 alt-f = 'fullscreen'
 
+cmd-l = 'layout tiles accordion'
+
+cmd-shift-alt-left = 'move-workspace-to-monitor left'
+cmd-shift-alt-right = 'move-workspace-to-monitor right'
+cmd-shift-alt-up = 'move-workspace-to-monitor up'
+
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 alt-tab = 'workspace-back-and-forth'
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor

@@ -5,7 +5,9 @@ taps:
 essential:
   packages:
     - chezmoi
+    - btop
     - zoxide
+    - eza
     - coreutils
     - ripgrep
     - jq
@@ -21,11 +23,13 @@ essential:
     - anomalyco/tap/opencode
     - powerlevel10k
     - heroku
+    - git-delta
     - lazygit
     - mise
     - sesh
 
   casks:
+    - nikitabobko/tap/aerospace
     - wezterm
     - 1password
     - font-meslo-lg-nerd-font
@@ -50,7 +54,6 @@ general:
     - autoenv
     - nushell
     - nowplaying-cli
-    - eza
     - yazi
     - ffmpegthumbnailer
     - unar
@@ -68,7 +71,6 @@ general:
     - hammerspoon
     - herd
     - hyperkey
-    - nikitabobko/tap/aerospace
     - discord
     - karabiner-elements
     - zoom
@@ -81,6 +83,8 @@ general:
     - tailscale-app
     - multipass
     - thaw
+    - imazing
+    - coderunner
     - setapp
     - telegram
     - orbstack

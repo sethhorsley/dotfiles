@@ -18,7 +18,7 @@ HISTSIZE=10000000
 SAVEHIST=10000000
 
 source "$HOME/.zsh-setup"
-source "$HOME/.zsh_variables"
+# source "$HOME/.zsh_variables"
 
 export PATH="$HOME/.local/bin:$PATH"
 

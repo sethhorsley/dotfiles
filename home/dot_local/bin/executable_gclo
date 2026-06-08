@@ -4,11 +4,49 @@ set -euo pipefail
 
 usage() {
   echo "Usage: gclo <github repo url> [cd]" >&2
+  echo "       gclo sync" >&2
   exit 1
 }
 
 if [[ ${#@} -lt 1 ]]; then
   usage
+fi
+
+# sync: clone missing repos and pull existing ones from repos.yaml
+if [[ "$1" == "sync" ]]; then
+  source_dir="$(chezmoi source-path)"
+  if [[ -d "$source_dir/home" ]]; then
+    chezmoi_base="$source_dir/home"
+  else
+    chezmoi_base="$source_dir"
+  fi
+  repos_file="$chezmoi_base/.chezmoidata/repos.yaml"
+
+  if [[ ! -f "$repos_file" ]]; then
+    echo "Missing repos file: $repos_file" >&2
+    exit 1
+  fi
+
+  base_dir="$HOME/files"
+  while IFS= read -r line; do
+    if [[ "$line" =~ \"([^\"]+)\" ]]; then
+      url="${BASH_REMATCH[1]}"
+      normalized="${url#https://github.com/}"
+      normalized="${normalized#http://github.com/}"
+      owner="${normalized%%/*}"
+      repo_name="${normalized##*/}"
+      target_dir="$base_dir/$owner/$repo_name"
+      if [[ -d "$target_dir/.git" ]]; then
+        echo "Pulling $owner/$repo_name..."
+        git -C "$target_dir" pull
+      else
+        echo "Cloning $owner/$repo_name..."
+        mkdir -p "$(dirname "$target_dir")"
+        git clone "git@github.com:$owner/$repo_name.git" "$target_dir"
+      fi
+    fi
+  done < "$repos_file"
+  exit 0
 fi
 
 do_cd=0
