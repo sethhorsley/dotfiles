@@ -184,7 +184,6 @@ alt-shift-z = 'move-node-to-workspace Z'
 
 alt-f = 'fullscreen'
 
-cmd-l = 'layout tiles accordion'
 
 cmd-shift-alt-left = 'move-workspace-to-monitor left'
 cmd-shift-alt-right = 'move-workspace-to-monitor right'

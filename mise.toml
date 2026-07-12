@@ -1,2 +1,3 @@
 [tools]
+aapt2 = "latest"
 ruby = "latest"

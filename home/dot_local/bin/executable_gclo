@@ -3,8 +3,9 @@
 set -euo pipefail
 
 usage() {
-  echo "Usage: gclo <github repo url> [cd]" >&2
+  echo "Usage: gclo [-t] <github repo url> [cd]" >&2
   echo "       gclo sync" >&2
+  echo "  -t  temporary: clone without adding to repos.yaml" >&2
   exit 1
 }
 
@@ -49,6 +50,12 @@ if [[ "$1" == "sync" ]]; then
   exit 0
 fi
 
+temporary=0
+if [[ "$1" == "-t" ]]; then
+  temporary=1
+  shift
+fi
+
 do_cd=0
 if [[ "${@: -1}" == "cd" ]]; then
   do_cd=1
@@ -76,52 +83,54 @@ owner="${normalized%%/*}"
 repo_name="${normalized##*/}"
 repo_https="https://github.com/$owner/$repo_name"
 
-source_dir="$(chezmoi source-path)"
-if [[ -d "$source_dir/home" ]]; then
-  chezmoi_base="$source_dir/home"
-else
-  chezmoi_base="$source_dir"
-fi
-repos_file="$chezmoi_base/.chezmoidata/repos.yaml"
-
-if [[ ! -f "$repos_file" ]]; then
-  echo "Missing repos file: $repos_file" >&2
-  exit 1
-fi
-
-# Parse existing repos from YAML
-repos=()
-while IFS= read -r line; do
-  if [[ "$line" =~ \"([^\"]+)\" ]]; then
-    repos+=("${BASH_REMATCH[1]}")
+if [[ $temporary -eq 0 ]]; then
+  source_dir="$(chezmoi source-path)"
+  if [[ -d "$source_dir/home" ]]; then
+    chezmoi_base="$source_dir/home"
+  else
+    chezmoi_base="$source_dir"
   fi
-done < "$repos_file"
+  repos_file="$chezmoi_base/.chezmoidata/repos.yaml"
 
-# Add new repo if not already present
-found=0
-for r in "${repos[@]}"; do
-  if [[ "$r" == "$repo_https" ]]; then
-    found=1
-    break
+  if [[ ! -f "$repos_file" ]]; then
+    echo "Missing repos file: $repos_file" >&2
+    exit 1
   fi
-done
 
-if [[ $found -eq 0 ]]; then
-  repos+=("$repo_https")
-fi
+  # Parse existing repos from YAML
+  repos=()
+  while IFS= read -r line; do
+    if [[ "$line" =~ \"([^\"]+)\" ]]; then
+      repos+=("${BASH_REMATCH[1]}")
+    fi
+  done < "$repos_file"
 
-# Write back to YAML
-{
-  echo "repos: ["
-  for i in "${!repos[@]}"; do
-    if [[ $i -lt $((${#repos[@]} - 1)) ]]; then
-      echo "  \"${repos[$i]}\","
-    else
-      echo "  \"${repos[$i]}\""
+  # Add new repo if not already present
+  found=0
+  for r in "${repos[@]}"; do
+    if [[ "$r" == "$repo_https" ]]; then
+      found=1
+      break
     fi
   done
-  echo "]"
-} > "$repos_file"
+
+  if [[ $found -eq 0 ]]; then
+    repos+=("$repo_https")
+  fi
+
+  # Write back to YAML
+  {
+    echo "repos: ["
+    for i in "${!repos[@]}"; do
+      if [[ $i -lt $((${#repos[@]} - 1)) ]]; then
+        echo "  \"${repos[$i]}\","
+      else
+        echo "  \"${repos[$i]}\""
+      fi
+    done
+    echo "]"
+  } > "$repos_file"
+fi
 
 base_dir="$HOME/files"
 target_dir="$base_dir/$owner/$repo_name"
@@ -129,6 +138,10 @@ target_dir="$base_dir/$owner/$repo_name"
 if [[ ! -d "$target_dir/.git" ]]; then
   mkdir -p "$(dirname "$target_dir")"
   git clone "git@github.com:$owner/$repo_name.git" "$target_dir"
+fi
+
+if command -v pbcopy >/dev/null 2>&1; then
+  printf '%s' "$target_dir" | pbcopy
 fi
 
 if [[ $do_cd -eq 1 ]]; then

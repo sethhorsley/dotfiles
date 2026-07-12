@@ -1,0 +1,24 @@
+#:schema https://docs.jj-vcs.dev/latest/config-schema.json
+
+[user]
+name = "Seth Horsley"
+email = "git-public.ch12j@seth4242.com"
+
+[ui]
+editor = "nvim"
+default-command = ["status"]
+
+# [revsets]
+# log = "(trunk()..@):: | (trunk()..@)-"
+
+[aliases]
+tug = ["bookmark", "move", "--from", "heads(::@- & bookmarks())", "--to", "@-"]
+fetch = ["git", "fetch"]
+push = ["git", "push"]
+pull = ["git", "fetch"]
+
+[git]
+
+[remotes.origin]
+auto-track-created-bookmarks = "*"
+# push = "git push"

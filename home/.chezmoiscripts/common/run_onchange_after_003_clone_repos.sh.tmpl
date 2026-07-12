@@ -4,47 +4,17 @@ set -eu
 
 echo "==> 📦 After install - Clone repositories"
 
-repos=(
-{{- range .repos }}
-  {{ . | quote }}
-{{- end }}
-)
-
-if [[ ${#repos[@]} -eq 0 ]]; then
+# gclo is installed during the main apply phase, which runs before this
+# run_after script. Fall back gracefully if it is somehow missing.
+gclo="$HOME/.local/bin/gclo"
+if [[ ! -x "$gclo" ]]; then
+  echo "gclo not found at $gclo; skipping repo clone" >&2
   exit 0
 fi
 
-base_dir="$HOME/files"
-
-clone_repo() {
-  local repo_input="$1"
-  local repo_url="$repo_input"
-  local normalized="$repo_input"
-
-  normalized="${normalized%.git}"
-  normalized="${normalized#git@github.com:}"
-  normalized="${normalized#https://github.com/}"
-  normalized="${normalized#http://github.com/}"
-
-  if [[ "$normalized" == */* ]]; then
-    repo_url="git@github.com:${normalized}.git"
-  else
-    echo "Skipping unrecognized repo input: $repo_input" >&2
-    return 0
-  fi
-
-  local owner="${normalized%%/*}"
-  local repo_name="${normalized##*/}"
-  local target_dir="$base_dir/$owner/$repo_name"
-
-  if [[ -d "$target_dir/.git" ]]; then
-    return 0
-  fi
-
-  mkdir -p "$(dirname "$target_dir")"
-  git clone "$repo_url" "$target_dir"
-}
-
-for repo in "${repos[@]}"; do
-  clone_repo "$repo"
-done
+# Repos come from .chezmoidata/repos.yaml. Listing them here also lets
+# run_onchange re-run this script whenever repos.yaml changes.
+# -t clones missing repos, skips existing ones, and does not touch repos.yaml.
+{{- range .repos }}
+"$gclo" -t {{ . | quote }}
+{{- end }}

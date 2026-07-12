@@ -23,6 +23,11 @@ apply = ['fpath']
 
 [plugins.powerlevel10k]
 github = "romkatv/powerlevel10k"
+profiles = ["p10k"]
+
+[plugins.starship]
+inline = 'eval "$(starship init zsh)"'
+profiles = ["starship"]
 
 [plugins.zsh-defer]
 github = "romkatv/zsh-defer"

@@ -2,6 +2,11 @@
 
 echo "==> 📜 Before install - Setup 2"
 
+{{ range .taps -}}
+brew tap {{ . | quote }} 2>/dev/null || true
+brew trust {{ . | quote }} 2>/dev/null || true
+{{ end -}}
+
 brew bundle --file=/dev/stdin <<EOF
 {{ range .taps -}}
 tap {{ . | quote }}
@@ -11,5 +16,8 @@ brew {{ . | quote }}
 {{ end -}}
 {{ range .essential.casks -}}
 cask {{ . | quote }}
+{{ end -}}
+{{ range .mas -}}
+mas {{ .name | quote }}, id: {{ .id }}
 {{ end -}}
 EOF

@@ -20,6 +20,15 @@ SAVEHIST=10000000
 source "$HOME/.zsh-setup"
 # source "$HOME/.zsh_variables"
 
+# Load local overrides early so they can influence PROMPT_THEME and sheldon
+file="$HOME/.zshrc.local"
+[[ -f $file ]] && source $file
+unset file
+
+# Set to "p10k" to switch back; sheldon loads only the active one
+PROMPT_THEME="${PROMPT_THEME:-starship}"
+export SHELDON_PROFILE="$PROMPT_THEME"
+
 export PATH="$HOME/.local/bin:$PATH"
 
 # Set the default text editor to vim
@@ -40,13 +49,39 @@ export HOMEBREW_CASK_OPTS="--no-quarantine"
 # Aliases
 alias n=nvim
 alias cat=bat
+
+# Eza
 alias ls='eza --grid --color auto --icons --sort=type'
 alias ll='eza --long --color always --icons --sort=type'
 alias la='eza --grid --all --color auto --icons --sort=type'
 alias lla='eza --long --all --color auto --icons --sort=type'
+alias l="eza -l --icons --git -a"
+alias lt="eza --tree --level=2 --long --icons --git"
+alias ltree="eza --tree --level=2  --icons --git"
+
+# SEC STUFF
+alias server='python -m http.server 4445'
+
+alias ff='aerospace list-windows --all | fzf --bind "enter:execute(aerospace focus --window-id {1})+abort"'
+
 alias tn="tmux new -s `pwd | sed 's/.*\///g'`"
 alias notes="nvim ~/files/hub/iseth/notes"
 alias oc=opencode
+alias jdm="jj describe -m $1"
+alias jcm="jj commit -m $1"
+alias jp="jj git push"
+
+# Dirs
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
+
+alias cl='clear'
+
+# HTTP requests with xh!
+alias http="xh"
 
 tailbat() {
   tail -f "$1" | bat --paging=never -l log
@@ -70,6 +105,29 @@ if [ -f ${file} ]; then
   source ${file}
 fi
 
+if exists jj; then
+  cache="$HOME/.cache/jj-completion.zsh"
+  if [[ ! -f $cache || $(command -v jj) -nt $cache ]]; then
+    {
+      cat <<'END_REVSETS'
+_jj_revsets() {
+  local -a bookmarks
+  bookmarks=("${(@f)$(jj bookmark list --no-pager 2>/dev/null | awk -F: '{print $1}')}")
+  (( ${#bookmarks} )) && _describe 'bookmark' bookmarks
+}
+END_REVSETS
+      jj util completion zsh | sed -E \
+        -e 's/REVSETS?:_default/REVSET:_jj_revsets/g' \
+        -e '/revisions?_pos/s/:_default'"'"'/:_jj_revsets'"'"'/g'
+    } >| "$cache"
+  fi
+  source "$cache"
+  unset cache
+fi
+
+# GO
+export GOPATH="/Users/$USER/go"
+
 export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
 
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
@@ -84,7 +142,7 @@ autoload -U compaudit compinit zrecompile
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ $PROMPT_THEME != p10k || ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 export PATH="$PATH:/Users/send/.local/share/gee/bin"
 export PATH="/Users/send/.bun/bin:$PATH"

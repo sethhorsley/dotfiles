@@ -8,5 +8,20 @@ repos: [
   "https://github.com/mrAdamLee/betterwater",
   "https://github.com/sethhorsley/govytravel-web",
   "https://github.com/sethhorsley/govy-app",
-  "https://github.com/Shpigford/clearly"
+  "https://github.com/Shpigford/clearly",
+  "https://github.com/sethhorsley/snet-cli",
+  "https://github.com/statecert/sc-face-demo",
+  "https://github.com/jumpstart-pro/jumpstart-pro-rails",
+  "https://github.com/spree/spree",
+  "https://github.com/LazyVim/LazyVim",
+  "https://github.com/folke/snacks.nvim",
+  "https://github.com/sethhorsley/jjgit",
+  "https://github.com/sethhorsley/jjgit.nvim",
+  "https://github.com/marckohlbrugge/37signals-skills",
+  "https://github.com/danielmiessler/SecLists",
+  "https://github.com/sellrepo/sellrepo",
+  "https://github.com/ruby-ui/ruby_ui",
+  "https://github.com/sylvorg/passage",
+  "https://github.com/FiloSottile/passage",
+  "https://github.com/vurden/passbot"
 ]

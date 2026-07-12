@@ -1,6 +1,9 @@
 taps:
   - FelixKratz/formulae
   - tarkah/tickrs
+  - anomalyco/tap
+  - nikitabobko/tap
+  - dmmulroy/tap
 
 essential:
   packages:
@@ -8,6 +11,17 @@ essential:
     - btop
     - zoxide
     - eza
+    - cloudflared
+    - jj
+    - modem-dev/tap/hunk
+    - lazyjj
+    - fish
+    - container
+    - ffuf
+    - gobuster
+    - starship
+    - mas
+    - dmmulroy/tap/jj-starship
     - coreutils
     - ripgrep
     - jq
@@ -17,24 +31,31 @@ essential:
     - sheldon
     - bat
     - htop
+    - rv
     - tmux
     - age
     - fzf
     - anomalyco/tap/opencode
+    - rtk
     - powerlevel10k
     - heroku
     - git-delta
     - lazygit
     - mise
     - sesh
+    - vips
+    - xh
 
   casks:
     - nikitabobko/tap/aerospace
     - wezterm
+    - github-copilot-app
+    - copilot-cli
     - 1password
     - font-meslo-lg-nerd-font
     - 1password-cli
-    - postgres-unofficial
+    - postgres-app
+    - protonvpn
     - obsidian
     - raycast
     - claude-code
@@ -65,7 +86,10 @@ general:
     - mole
 
   casks:
+    - codex
     - codex-app
+    - claude
+    - google-chrome
     - little-snitch
     - livebook
     - hammerspoon
@@ -79,6 +103,7 @@ general:
     - tor-browser
     - tableplus
     - notion
+    - muxy-app/tap/muxy
     - cursor
     - tailscale-app
     - multipass

@@ -27,7 +27,7 @@
   [[ $ZSH_VERSION == (5.<1->*|<6->.*) ]] || return
 
   # Left prompt segments.
-  typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(prompt_char dir vcs)
+  typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(prompt_char dir my_vcs)
   # Right prompt segments.
   typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
 
@@ -52,34 +52,26 @@
   # Bold directory.
   typeset -g POWERLEVEL9K_DIR_CONTENT_EXPANSION='%B$P9K_CONTENT'
 
-  # Git status formatter.
-  function my_git_formatter() {
-    emulate -L zsh
-    if [[ -n $P9K_CONTENT ]]; then
-      # If P9K_CONTENT is not empty, it's either "loading" or from vcs_info (not from
-      # gitstatus plugin). VCS_STATUS_* parameters are not available in this case.
-      typeset -g my_git_format=$P9K_CONTENT
+  # VCS segment: jj when in a jj repo, git otherwise.
+  function prompt_my_vcs() {
+    if jj root --quiet &>/dev/null; then
+      local jj_status
+      jj_status=$(jj log -n1 --no-graph -T \
+        'coalesce(bookmarks.join(", "), change_id.shortest(8)) ++ "|" ++ if(!empty, "dirty", "clean")' \
+        2>/dev/null) || return
+      local label=${jj_status%|*}
+      [[ -z $label ]] && return
+      local dirty=""
+      [[ ${jj_status##*|} == dirty ]] && dirty=" %3F✗"
+      p10k segment -f 4 -t "%Bjj:(%1F${label//\%/%%}%4F)${dirty}"
     else
-      # Use VCS_STATUS_* parameters to assemble Git status. See reference:
-      # https://github.com/romkatv/gitstatus/blob/master/gitstatus.plugin.zsh.
-      typeset -g my_git_format="${1+%B%4F}git:(${1+%1F}"
-      my_git_format+=${${VCS_STATUS_LOCAL_BRANCH:-${VCS_STATUS_COMMIT[1,8]}}//\%/%%}
-      my_git_format+="${1+%4F})"
-      if (( VCS_STATUS_NUM_CONFLICTED || VCS_STATUS_NUM_STAGED ||
-            VCS_STATUS_NUM_UNSTAGED   || VCS_STATUS_NUM_UNTRACKED )); then
-        my_git_format+=" ${1+%3F}✗"
-      fi
+      local branch
+      branch=$(git symbolic-ref --short HEAD 2>/dev/null || git rev-parse --short HEAD 2>/dev/null) || return
+      local dirty=""
+      [[ -n $(git status --porcelain 2>/dev/null) ]] && dirty=" %3F✗"
+      p10k segment -f 4 -t "%Bgit:(%1F${branch//\%/%%}%4F)${dirty}"
     fi
   }
-  functions -M my_git_formatter 2>/dev/null
-
-  # Disable the default Git status formatting.
-  typeset -g POWERLEVEL9K_VCS_DISABLE_GITSTATUS_FORMATTING=true
-  # Install our own Git status formatter.
-  typeset -g POWERLEVEL9K_VCS_CONTENT_EXPANSION='${$((my_git_formatter(1)))+${my_git_format}}'
-  typeset -g POWERLEVEL9K_VCS_LOADING_CONTENT_EXPANSION='${$((my_git_formatter()))+${my_git_format}}'
-  # Grey Git status when loading.
-  typeset -g POWERLEVEL9K_VCS_LOADING_FOREGROUND=246
 
   # Instant prompt mode.
   #
