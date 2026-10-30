@@ -78,6 +78,23 @@ config.keys = {
 	{ key = "DownArrow", mods = "CMD", action = act.SendKey({ key = "PageDown" }) },
 	{ key = "Enter", mods = "ALT", action = "DisableDefaultAssignment" },
 	{ key = "t", mods = "ALT", action = wezterm.action.ShowTabNavigator },
+	-- cmd+shift+[ / ] -> herdr workspace switching (herdr prefix is ctrl+a, then [ or ])
+	{
+		key = "[",
+		mods = "CMD|SHIFT",
+		action = act.Multiple({
+			act.SendKey({ key = "a", mods = "CTRL" }),
+			act.SendKey({ key = "[" }),
+		}),
+	},
+	{
+		key = "]",
+		mods = "CMD|SHIFT",
+		action = act.Multiple({
+			act.SendKey({ key = "a", mods = "CTRL" }),
+			act.SendKey({ key = "]" }),
+		}),
+	},
 }
 
 -- Use the defaults as a base

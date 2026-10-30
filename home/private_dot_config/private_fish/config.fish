@@ -1,3 +1,7 @@
+# The following lines were added by Docker Desktop to add commands to your PATH.
+export PATH="$PATH:/Users/send-16/.docker/bin"
+# End of Docker Desktop section.
+
 if status is-interactive
 end
 
@@ -28,6 +32,8 @@ alias oc opencode
 alias jdm 'jj describe -m'
 alias jcm 'jj commit -m'
 alias jp 'jj git push'
+alias jcl 'jj git clone'
+alias gcl 'git clone'
 
 alias .. 'cd ..'
 alias ... 'cd ../..'
@@ -54,3 +60,10 @@ if command -q zoxide
   zoxide init fish | source
   alias cd z
 end
+
+set -gx ANDROID_HOME $HOME/Library/Android/sdk
+fish_add_path $ANDROID_HOME/emulator
+fish_add_path $ANDROID_HOME/platform-tools
+# ANDROID_SDK_ROOT gets inherited from somewhere outside fish config and
+# conflicts with ANDROID_HOME during Gradle builds; erase it every session.
+set -e ANDROID_SDK_ROOT

@@ -1,0 +1,24 @@
+#!/bin/bash
+set -e
+
+echo "==> 🐑 After install - Setup Herdr"
+
+if ! command -v herdr &>/dev/null && [[ ! -x "$HOME/.local/bin/herdr" ]]; then
+  curl -fsSL https://herdr.dev/install.sh | sh
+fi
+
+herdr="$HOME/.local/bin/herdr"
+command -v herdr &>/dev/null && herdr="herdr"
+
+plugins=(
+  'fullerzz.sesh fullerzz/herdr-plugin-sesh'
+  'vim-herdr-navigation RooseveltAdvisors/vim-herdr-navigation'
+)
+
+installed="$("$herdr" plugin list)"
+for plugin in "${plugins[@]}"; do
+  read -r id repo <<<"$plugin"
+  if ! grep -Fq -- "- $id (" <<<"$installed"; then
+    "$herdr" plugin install "$repo" -y
+  fi
+done

@@ -1,3 +1,3 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
-SETUVAR fish_user_paths:/opt/homebrew/opt/openjdk/bin
+SETUVAR fish_user_paths:/Library/Java/JavaVirtualMachines/zulu\x2d17\x2ejdk/Contents/Home/bin\x1e/Users/send\x2d16/Library/Android/sdk/platform\x2dtools\x1e/Users/send\x2d16/Library/Android/sdk/emulator\x1e/Users/send\x2d16/\x2elocal/bin\x1e/opt/homebrew/opt/openjdk/bin

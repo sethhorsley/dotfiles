@@ -1,0 +1,5 @@
+#!/bin/bash
+set -eufo pipefail
+
+# mise tools hash: {{ include "private_dot_config/mise/config.toml" | sha256sum }}
+~/.local/bin/mise install --yes

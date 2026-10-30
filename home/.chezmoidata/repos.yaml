@@ -23,5 +23,10 @@ repos: [
   "https://github.com/ruby-ui/ruby_ui",
   "https://github.com/sylvorg/passage",
   "https://github.com/FiloSottile/passage",
-  "https://github.com/vurden/passbot"
+  "https://github.com/vurden/passbot",
+  "https://github.com/vurden/passbot-app",
+  "https://github.com/sethhorsley/seth_ui",
+  "https://github.com/make-it-animated/rn-makeitanimated",
+  "https://github.com/inertia-rails/react-starter-kit",
+  "https://github.com/DevDuo/alteredstack-web"
 ]

@@ -2,6 +2,9 @@
 
 echo "==> 📜 After install - Setup 1"
 
+# trust third-party taps (Homebrew 7+) so casks/formulae from them install unprompted
+brew trust --tap {{ range .taps }}{{ . | quote }} {{ end }}|| true
+
 brew bundle --file=/dev/stdin <<EOF
 {{ range .taps -}}
 tap {{ . | quote }}
@@ -17,9 +20,16 @@ EOF
 # set
 defaults write org.hammerspoon.Hammerspoon MJConfigFile "~/.config/hammerspoon/init.lua"
 
+if [[ ! -f ~/.local/bin/herdr ]]; then
+  curl -fsSL https://herdr.dev/install.sh | sh
+fi
+
 if [[ ! -f ~/.local/bin/mise ]]; then
   curl https://mise.run | sh
   mkdir -p ~/.zsh/functions/Completion
   mise completion zsh >~/.zsh/functions/Completion/_mise
 fi
 # eval "$(~/.local/bin/mise activate zsh)"
+
+# mise tools hash: {{ include "private_dot_config/mise/config.toml" | sha256sum }}
+~/.local/bin/mise install --yes

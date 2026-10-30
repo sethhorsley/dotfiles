@@ -4,6 +4,9 @@ taps:
   - anomalyco/tap
   - nikitabobko/tap
   - dmmulroy/tap
+  - modem-dev/tap
+  - muxy-app/tap
+  - abue-ammar/tinycast
 
 essential:
   packages:
@@ -18,6 +21,7 @@ essential:
     - fish
     - container
     - ffuf
+    - git-lfs
     - gobuster
     - starship
     - mas
@@ -25,6 +29,7 @@ essential:
     - coreutils
     - ripgrep
     - jq
+    - postgresql
     - nvim
     - libyaml
     - gmp
@@ -40,6 +45,7 @@ essential:
     - powerlevel10k
     - heroku
     - git-delta
+    - tmuxpack/tpack/tpack
     - lazygit
     - mise
     - sesh
@@ -56,10 +62,13 @@ essential:
     - 1password-cli
     - postgres-app
     - protonvpn
+    - nextcloud
+    - pangolin
     - obsidian
     - raycast
     - claude-code
     - brave-browser
+    - tor-browser
 
 general:
   packages:
@@ -70,6 +79,7 @@ general:
     - duf
     - ncdu
     - yt-dlp
+    - mole
     - overmind
     - nmap
     - autoenv
@@ -81,6 +91,7 @@ general:
     - fd
     - poppler
     - tickrs
+    - tuios
     - gh
     - gum
     - mole
@@ -89,11 +100,12 @@ general:
     - codex
     - codex-app
     - claude
+    - grok-bot
+    - grok-build
     - google-chrome
     - little-snitch
     - livebook
     - hammerspoon
-    - herd
     - hyperkey
     - discord
     - karabiner-elements
@@ -103,7 +115,6 @@ general:
     - tor-browser
     - tableplus
     - notion
-    - muxy-app/tap/muxy
     - cursor
     - tailscale-app
     - multipass
@@ -124,6 +135,7 @@ general:
     - spotify
     - transmit
     - transmission
+    - abue-ammar/tinycast/tinycast
 
     # dash docs
     - dash
@@ -141,5 +153,7 @@ general:
     - font-sf-pro
     - sf-symbols
     - textsniper
+    - unsloth
     - visual-studio-code
+    - virtualbuddy
     - whatsapp

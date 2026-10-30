@@ -1,0 +1,49 @@
+onboarding = false
+
+[ui]
+prompt_new_tab_name = false
+
+[keys]
+prefix = "ctrl+a"
+reload_config = "prefix+r"            # tmux: prefix+r
+resize_mode = ""                      # unbound, was prefix+r
+open_notification_target = ""         # unbound so prefix+o opens sesh picker
+rename_tab = "prefix+comma"           # tmux: prefix+,
+move_tab_previous = "prefix+<"  # tmux: prefix+<
+move_tab_next = "prefix+>"     # tmux: prefix+>
+split_vertical = "prefix+|"         # tmux: prefix+s (stacked split)
+split_horizontal = "prefix+\""         # tmux: prefix+s (stacked split)
+fullscreen = "prefix+m"               # tmux: bind-key m resize-pane -Z
+settings = "prefix+shift+s"           # moved off prefix+s
+previous_workspace = "prefix+["       # wezterm cmd+shift+[ sends prefix+[
+next_workspace = "prefix+]"           # wezterm cmd+shift+] sends prefix+]
+
+[[keys.command]]
+key = "prefix+o"
+type = "plugin_action"
+command = "fullerzz.sesh.open-picker"
+description = "open Sesh picker"
+
+[[keys.command]]
+key = "ctrl+h"
+type = "plugin_action"
+command = "local.vim-navigator.left"
+description = "Vim-aware pane left"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "plugin_action"
+command = "local.vim-navigator.down"
+description = "Vim-aware pane down"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "plugin_action"
+command = "local.vim-navigator.up"
+description = "Vim-aware pane up"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "plugin_action"
+command = "local.vim-navigator.right"
+description = "Vim-aware pane right"

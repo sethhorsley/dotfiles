@@ -1,0 +1,16 @@
+[tools]
+ruby = "latest"
+bun = "latest"
+go = "latest"
+node = "latest"
+"npm:@earendil-works/pi-coding-agent" = "latest"
+"npm:pi" = "latest"
+rust = "latest"
+pnpm = "latest"
+zig = "latest"
+erlang = "latest"
+elixir = "latest"
+"cargo:https://github.com/raine/workmux" = { version = "branch:jj" }
+
+[settings]
+idiomatic_version_file_enable_tools = ["ruby"]

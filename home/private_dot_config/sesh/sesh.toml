@@ -1,2 +1,6 @@
 [default_session]
 # startup_command = "nvim -c 'lua require(\"persistence\").load()'"
+
+# Discover projects on every listing, including directories never visited with zoxide.
+[frecency]
+list_command = "sesh-projects"

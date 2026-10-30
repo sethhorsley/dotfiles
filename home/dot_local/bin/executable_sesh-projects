@@ -1,0 +1,8 @@
+#!/bin/sh
+# Keep recent directories first, then discover every ~/files/<owner>/<project>.
+{
+    zoxide query --list
+    if [ -d "$HOME/files" ]; then
+        find -L "$HOME/files" -mindepth 2 -maxdepth 2 -type d
+    fi
+} | awk '!seen[$0]++'
