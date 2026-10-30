@@ -32,6 +32,7 @@ config.hide_tab_bar_if_only_one_tab = true
 config.window_decorations = "RESIZE"
 config.window_background_opacity = 0.75
 config.macos_window_background_blur = 8
+config.text_background_opacity = 0.75 -- cells with an explicit bg (tmux inactive panes) stay as translucent as the window
 
 config.window_padding = {
 	left = 2,

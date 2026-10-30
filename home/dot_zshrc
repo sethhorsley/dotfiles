@@ -67,6 +67,7 @@ alias ff='aerospace list-windows --all | fzf --bind "enter:execute(aerospace foc
 alias tn="tmux new -s `pwd | sed 's/.*\///g'`"
 alias notes="nvim ~/files/hub/iseth/notes"
 alias oc=opencode
+alias wm='workmux'
 alias jdm="jj describe -m $1"
 alias jcm="jj commit -m $1"
 alias jp="jj git push"

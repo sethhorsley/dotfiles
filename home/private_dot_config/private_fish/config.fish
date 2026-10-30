@@ -29,6 +29,7 @@ alias ff 'aerospace list-windows --all | fzf --bind "enter:execute(aerospace foc
 alias tn 'tmux new -s (basename $PWD)'
 alias notes 'nvim ~/files/hub/iseth/notes'
 alias oc opencode
+alias wm workmux
 alias jdm 'jj describe -m'
 alias jcm 'jj commit -m'
 alias jp 'jj git push'

@@ -1,0 +1,7 @@
+nerdfont: true
+mode: session
+agent: claude
+panes:
+  - command: nvim
+    focus: true
+window_prefix: " {project}--"

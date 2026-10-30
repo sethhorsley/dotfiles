@@ -36,6 +36,7 @@ essential:
     - sheldon
     - bat
     - htop
+    - superfile
     - rv
     - tmux
     - age
@@ -45,16 +46,18 @@ essential:
     - powerlevel10k
     - heroku
     - git-delta
-    - tmuxpack/tpack/tpack
     - lazygit
     - mise
     - sesh
     - vips
+    - tpack
+    - workmux
     - xh
 
   casks:
     - nikitabobko/tap/aerospace
     - wezterm
+    - cmux
     - github-copilot-app
     - copilot-cli
     - 1password
@@ -65,10 +68,12 @@ essential:
     - nextcloud
     - pangolin
     - obsidian
+    - textsniper
     - raycast
     - claude-code
     - brave-browser
     - tor-browser
+    - vorssaint
 
 general:
   packages:
